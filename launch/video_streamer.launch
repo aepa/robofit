@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<launch>
+
+    <arg name="namespace" default="robofit" />
+    <arg name="image_topic" default="/video_feedback" />
+    <arg name="camera_id" default="0" />
+    <arg name="feedback_node" default="visual_feedback" />
+
+    <node name="image_viewer" pkg="image_view" type="image_view" ns="$(arg namespace)" >
+        <remap from="image"           to="$(arg feedback_node)/$(arg image_topic)" />
+        <param name="autosize"      value="True" />
+    </node>
+
+    <node name="$(arg feedback_node)" pkg="robofit" type="video_streamer" ns="$(arg namespace)" > <!-- launch-prefix="xterm -e gdb -args" -->
+        <param name="camera_id" value="$(arg camera_id)" />
+        <param name="camera_image"           value="$(arg image_topic)" />
+    </node>
+
+</launch>

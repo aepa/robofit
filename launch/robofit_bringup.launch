@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<launch>
+
+    <arg name="namespace" default="robofit" />
+    <arg name="image_topic" default="/video_feedback" />
+    <arg name="camera_id" default="0" />
+    <arg name="feedback_node" default="visual_feedback" />
+
+    <!-- launch sound_play and speech node -->
+    <include file="$(find robofit)/launch/sound_streamer.launch" >
+        <arg name="feedback" value="$(arg feedback_node)" />
+    </include>
+
+    <!-- show visual feedback -->
+    <include file="$(find robofit)/launch/video_streamer.launch" >
+        <arg name="image_topic" value="$(arg image_topic)"/>
+        <arg name="camera_id" value="$(arg camera_id)"/>
+    </include>
+
+    <!-- observe gestures and exercise execution -->
+    <include file="$(find robofit)/launch/observer.launch" >
+
+    </include>
+    <!-- state machine for recognizing gestures and exercise execution -->
+    <!--node name="robofit_smach" pkg="robofit" type="robofit_smach" ns="$(arg namespace)" -->
+
+
+
+    <!-- state machine for publishing visual and audio feedback -->
+
+
+
+</launch>

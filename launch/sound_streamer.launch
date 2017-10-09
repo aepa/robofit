@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<launch>
+
+    <arg name="namespace" default="robofit" />
+    <arg name="feedback" default="feedback" />
+    <arg name="robot_sound" default="robotsound" />
+
+    <!-- launch sound_play and speech node -->
+    <include file="$(find sound_play)/soundplay_node.launch" ns="$(arg namespace)" />
+
+    <!-- send sounds to the sound_play node -->
+    <node name="sound_feedback" pkg="robofit" type="sound_streamer" ns="$(arg namespace)" output="screen" >
+        <param name="feedback_topic"           value="$(arg feedback" />
+        <param name="robot_sound_topic"        value="$(arg robot_sound)" />
+    </node>
+
+
+
+</launch>
