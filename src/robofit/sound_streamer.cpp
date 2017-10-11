@@ -33,9 +33,18 @@ class SoundStreamer
 
     void streamerCallback(const std_msgs::UInt8::ConstPtr& msg)
     {
-        if(msg->data == 1) output_.arg = media_path_ + crowd_cheer_01;
-        if(msg->data == 2) output_.arg = media_path_ + crowd_boo_02;
-        stream_pub_.publish(output_);
+        if(msg->data == 11) 
+        {
+            output_.arg = media_path_ + crowd_cheer_01;
+            stream_pub_.publish(output_);
+        
+        }
+        else if(msg->data == 12) 
+        {
+            output_.arg = media_path_ + crowd_boo_02;
+            stream_pub_.publish(output_);
+        }
+
 
     }
     private:

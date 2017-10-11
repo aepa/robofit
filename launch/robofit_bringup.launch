@@ -2,13 +2,15 @@
 <launch>
 
     <arg name="namespace" default="robofit" />
-    <arg name="image_topic" default="/video_feedback" />
+    <arg name="image_topic" default="video_feedback" />
     <arg name="camera_id" default="0" />
-    <arg name="feedback_node" default="visual_feedback" />
+    <arg name="feedback_topic" default="/feedback" />
+    <arg name="exercise_topic" default="/exercise" />
 
     <!-- launch sound_play and speech node -->
     <include file="$(find robofit)/launch/sound_streamer.launch" >
-        <arg name="feedback" value="$(arg feedback_node)" />
+        <arg name="feedback" value="$(arg feedback_topic)" />
+        <arg name="namespace" value="$(arg namespace)" />
     </include>
 
     <!-- show visual feedback -->
@@ -18,12 +20,16 @@
     </include>
 
     <!-- observe gestures and exercise execution -->
-    <include file="$(find robofit)/launch/observer.launch" >
-
+    <include file="$(find myo_ros)/launch/myo_launch.launch" >
+        <arg name="exercise_topic" value="$(arg exercise_topic)" />
+        <arg name="namespace" value="$(arg namespace)" />
     </include>
-    <!-- state machine for recognizing gestures and exercise execution -->
-    <!--node name="robofit_smach" pkg="robofit" type="robofit_smach" ns="$(arg namespace)" -->
 
+    <include file="$(find robofit)/launch/act_mon.launch" >
+        <arg name="namespace" value="$(arg namespace)" />
+        <arg name="feedback_topic" value="$(arg feedback_topic)" />
+        <arg name="exercise_topic" value="$(arg exercise_topic)" />
+    </include>
 
 
     <!-- state machine for publishing visual and audio feedback -->

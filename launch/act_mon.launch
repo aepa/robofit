@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<launch>
+
+    <arg name="namespace" default="robofit" />
+    <arg name="feedback_topic" default="feedback" />
+    <arg name="exercise_topic" default="/exercise" />
+
+    <node name="activity_monitor" pkg="robofit" type="activity_monitor" ns="$(arg namespace)" output="screen" >
+        <param name="feedback_topic"           value="$(arg feedback_topic)" />
+        <param name="exercise_topic"           value="$(arg exercise_topic)" />
+        <param name="namespace"           value="$(arg namespace)" />
+    </node>
+
+
+
+</launch>
