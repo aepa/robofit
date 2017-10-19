@@ -65,7 +65,7 @@ class ActivityMonitor
                 {
 
                     count_--;
-                    if(count_ == 0)
+                    if(count_ <= 0)
                     {
                         timer_.stop();
                         idle_ = 1;

@@ -45,12 +45,13 @@ class VideoStreamer
             cv_bridge::CvImage frame_bridge;
             frame_bridge.encoding = "bgr8";
             sensor_msgs::Image img_out;
-            pos_feed_ = imread(ros::package::getPath("robofit")+"/media/positive_big.png", CV_LOAD_IMAGE_COLOR);
-            neg_feed_ = imread(ros::package::getPath("robofit")+"/media/negative_big.png", CV_LOAD_IMAGE_COLOR);
+            pos_feed_ = imread(ros::package::getPath("robofit")+"/media/positive_big.jpg", CV_LOAD_IMAGE_COLOR);
+            neg_feed_ = imread(ros::package::getPath("robofit")+"/media/negative_big.jpg", CV_LOAD_IMAGE_COLOR);
             squats_start_ = imread(ros::package::getPath("robofit")+"/media/squats.jpg", CV_LOAD_IMAGE_COLOR);
             jjacks_start_ = imread(ros::package::getPath("robofit")+"/media/jumping_jacks.jpg", CV_LOAD_IMAGE_COLOR);
 
             cb_var_ = 0;
+	    ongoing_ = 0;
             while(ros::ok())
             {
                 if(cb_var_ == 0) // Nothing
@@ -59,25 +60,29 @@ class VideoStreamer
                     cap >> frame_bridge.image;
         
                 }
-                else if(cb_var_ == 1) // Show that Squats were chosen
+                else if(cb_var_ == 1 && ongoing_ == 0) // Show that Squats were chosen
                 {
                     frame_bridge.image = squats_start_;
                     timer_.start();
+		    ongoing_ = 1;
                 }    
-                else if(cb_var_ == 2) // Show that Jumping Jacks were chosen
+                else if(cb_var_ == 2 && ongoing_ == 0) // Show that Jumping Jacks were chosen
                 {
                     frame_bridge.image = jjacks_start_;
                     timer_.start();
+		    ongoing_ = 1;
                 }    
                 else if(cb_var_ == 11) // Positive
                 {
                     frame_bridge.image = pos_feed_;
                     timer_.start();
+		    ongoing_ = 0;
                 }    
                 else if(cb_var_ == 12) // Negative
                 {
                     frame_bridge.image = neg_feed_;
                     timer_.start();
+		    ongoing_ = 0;
                 }    
                 stream_pub_.publish(frame_bridge.toImageMsg());
                 
@@ -108,6 +113,7 @@ class VideoStreamer
 
         int camera_id_;
         int cb_var_;
+	int ongoing_;
         Mat pos_feed_, neg_feed_, squats_start_, jjacks_start_;
         string image_topic_, feedback_topic_, exercise_topic_;
         image_transport::Publisher stream_pub_;
