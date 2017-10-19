@@ -7,10 +7,10 @@
     <arg name="exercise_topic" default="/exercise" />
     <arg name="camera_id" default="0" />
 
-    <node name="image_viewer" pkg="image_view" type="image_view" ns="$(arg namespace)" >
+    <!--node name="image_viewer" pkg="image_view" type="image_view" ns="$(arg namespace)" >
         <remap from="image"           to="$(arg image_topic)" />
         <param name="autosize"      value="True" />
-    </node>
+    </node-->
 
     <node name="video_feedback" pkg="robofit" type="video_streamer" ns="$(arg namespace)" output="screen" > <!-- launch-prefix="xterm -e gdb -args" -->
         <param name="camera_id" value="$(arg camera_id)" />
