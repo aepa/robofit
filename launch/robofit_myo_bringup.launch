@@ -19,6 +19,12 @@
         <arg name="camera_id" value="$(arg camera_id)"/>
     </include>
 
+    <!-- observe gestures and exercise execution -->
+    <include file="$(find myo_ros)/launch/myo_launch.launch" >
+        <arg name="exercise_topic" value="$(arg exercise_topic)" />
+        <arg name="namespace" value="$(arg namespace)" />
+    </include>
+
     <include file="$(find robofit)/launch/act_mon.launch" >
         <arg name="namespace" value="$(arg namespace)" />
         <arg name="feedback_topic" value="$(arg feedback_topic)" />
